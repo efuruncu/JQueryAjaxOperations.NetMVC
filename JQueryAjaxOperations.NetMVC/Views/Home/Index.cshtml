@@ -1,0 +1,64 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<h2>Index</h2>
+
+<button id="btnLoad" type="button" class="btn btn-success">Verileri Yükle</button>
+<button id="btnLoad2" type="button" class="btn btn-success">Veri Gonder &amp; Yükle</button>
+<input id="txtData" type="text" class="form-control" placeholder="veri giriniz.." style="width:200px;" />
+<hr />
+
+<div id="loading" class="alert alert-warning" style="display:none;">
+    yükleniyor..
+</div>
+<ul id="list" class="list-group">
+</ul>
+
+<script>
+    //button click event
+    $(function () {
+        $("#btnLoad").click(function () {
+
+            $("#list").empty();
+            $("#loading").show(300, function () {
+
+                $.get("/Home/VerileriGetir", function (data) {
+                    $("#list").html(data);
+
+                    }).fail(function () {
+                        alert("Hata oluştu..");
+                    }).always(function () {
+                         $("#loading").hide(300);
+                    });
+
+            });
+
+
+
+        });
+             $("#btnLoad2").click(function () {
+
+            $("#list").empty();
+            $("#loading").show(300, function () {
+
+             
+                var data = $("#txtData").val();
+                $.get("/Home/VerileriGetir", {veri:data}, function (data) {
+                    $("#list").html(data);
+
+                }).fail(function () {
+                        alert("Hata oluştu..");
+                    }).always(function () {
+                         $("#loading").hide(300);
+                    });
+
+            });
+
+
+
+        });
+    });
+</script>
+

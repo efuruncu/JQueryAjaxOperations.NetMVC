@@ -1,0 +1,63 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+</head>
+<body>
+    <div class="container"> 
+        <div class="row">
+            <div class="col-md-12">
+                <h2>
+                    AJAX ile Dosya Yükleme
+                </h2>
+                <hr />
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                @*<form enctype="multipart/form-data" action="Home/Index" method="post"> </form>*@
+
+
+                @using (Html.BeginForm("Index","Home",FormMethod.Post,new { enctype = "multipart/form-data"}))
+                {
+                    <input type="file" name="file" class="form" />
+                    <input type="button" id="btnSendFile" class="btn btn-success" value="Send File" />
+                }
+
+
+                <script>
+                    $("#btnSendFile").click(function () {
+                        var formData = new FormData($("form").get(0));
+
+                        $.ajax({
+                            method: "POST",
+                            url: '@Url.Action("FileUpload","Home2")',
+                            data: formData,
+                            processData: false,
+                            contentType: false
+                        }).done(function (result) {
+                            if (result.hasError == false) {
+                                alert(result.message);
+                            }
+                            else {
+                                alert("Resim null geldi..!")
+                            }
+                        });
+                    })
+                </script>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

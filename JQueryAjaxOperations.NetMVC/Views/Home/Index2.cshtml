@@ -1,0 +1,37 @@
+﻿
+@{
+    ViewBag.Title = "Index2";
+}
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<h2>Index2</h2>
+
+<button id="btnLoad" type="button" class="btn btn-success">Verileri Yükle</button>
+
+<hr />
+
+<input id="txtData" type="text" class="form-control" placeholder="veri giriniz.." style="width:200px;"/>
+<button id="btnLoad2" type="button" class="btn btn-success">Verileri Gönder &amp; Yükle</button>
+<div id="loading" class="alert alert-warning" style="display:none;">yükleniyor..</div>
+<ul id="list" class="list-group"></ul>
+
+
+<script>
+    $(function () {
+        
+        $("#btnLoad").click(function () {
+            $('#loading').show(300);
+            $('#list').load("/Home/VerileriGetir", function () {
+                $('#loading').hide(300);
+            });
+        });
+
+         $("#btnLoad2").click(function () {
+             $('#loading').show(300);
+
+             var data = $('#txtData').val();
+             $('#list').load("/Home/VerileriGetir", {veri :data}, function () {
+                $('#loading').hide(300);
+            });
+        });
+    });
+</script>

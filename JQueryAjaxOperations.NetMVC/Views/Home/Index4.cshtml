@@ -1,0 +1,79 @@
+﻿
+@{
+    ViewBag.Title = "Index4";
+}
+
+<h2>Index4</h2>
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+<script src="~/Scripts/bootstrap.min.js"></script>
+
+
+<button id="btnLoad" type="button" class="btn btn-success">Verileri Yükle</button>
+
+<hr />
+
+<input id="txtData" type="text" class="form-control" placeholder="veri giriniz.." style="width:200px;" />
+<button id="btnLoad2" type="button" class="btn btn-success">Verileri Gönder &amp; Yükle</button>
+
+<div id="loading" class="alert alert-warning" style="display:none;">yükleniyor..</div>
+<ul id="list" class="list-group"></ul>
+
+<script>
+    $(function () {
+        $("#btnLoad").click(function () {
+            $.ajax({
+                method: "GET",
+                url: "/Home/VerileriGetir2",
+                beforeSend: function () {
+                    $("#list").empty();
+                    $("#loading").show(300);
+                }
+            }).done(function (data) {
+
+                console.log(data);
+                for (var i in data)
+                {
+                    var dd = data[i];
+                    var li = $("<li class='list-group-item'></li>");
+                    li.html(dd);
+                    $("#list").append(li);
+
+                }
+                //$("#list").hmtl(data);
+            }).fail(function () {
+                alert("Hata oluştu.");
+            }).always(function () {
+                $("#loading").hide(300);
+            });
+        });
+        
+          $("#btnLoad2").click(function () {
+
+              var dat = $("#txtData").val();
+              $.ajax({
+                  method: "POST",
+                  url: "/Home/VerileriGetir2",
+                  data: {veri:dat},
+                beforeSend: function () {
+                    $("#list").empty();
+                    $("#loading").show(300);
+                }
+            }).done(function (data) { //success
+                for (var i in data)
+                {
+                    var dd = data[i];
+                    var li = $("<li class='list-group-item'></li>");
+                    li.html(dd);
+                    $("#list").append(li);
+
+                }
+            }).fail(function () {
+                alert("Hata oluştu.");
+            }).always(function () {
+                $("#loading").hide(300);
+            });
+        });
+    });
+</script>
